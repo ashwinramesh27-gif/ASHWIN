@@ -28,7 +28,7 @@
 
     <section class="hero">
         <div class="hero-content glass">
-            <img src="images/profile.jpg" class="profile-img">
+            <img src="IMG_20260118_170308.jpg.jpeg" class="profile-img">
             <h1>Aspiring Cloud & DevOps Engineer</h1>
             <p>BCA Cloud Computing Student</p>
         </div>
@@ -62,23 +62,87 @@
     <section id="projects" class="section glass">
         <h2>Projects</h2>
         <div class="card">
-            Modern Responsive Websites using HTML, CSS, JavaScript
+            Modern Responsive Website using HTML, CSS, JavaScript
         </div>
     </section>
 
-    <section id="contact" class="section glass">
-        <h2>Contact Me</h2>
-        <form action="https://formsubmit.co/ashwinramesh27@gmail.com" method="POST">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="message" placeholder="Your Message"></textarea>
-            <button type="submit">Send Message</button>
-        </form>
-    </section>
+    <section id="feedback" class="fade">
+  <h2>Feedback</h2>
+  <form class="feedback-form" id="feedbackForm">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <textarea rows="5" id="message" placeholder="Your Feedback" required></textarea>
+    <button type="submit">Submit Feedback</button>
+  </form>
+  <div id="status"></div>
+</section>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 
+<script>
+
+    const supabaseUrl = "https://pmmlvynoxfxefvmzhrbo.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtbWx2eW5veGZ4ZWZ2bXpocmJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MzA4NDgsImV4cCI6MjA4NzUwNjg0OH0.Xt_BmsOw0oJKBg64weyjB2NjHTqpapEeYxXRSpetBrg";
+
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const status = document.getElementById("status");
+  const submitButton = e.target.querySelector('button[type="submit"]');
+  
+  // Show loading state
+  status.innerText = "Submitting...";
+  status.style.color = "#fff";
+  submitButton.disabled = true;
+  submitButton.innerText = "Submitting...";
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  console.log("Attempting to submit feedback:", { name, email, message });
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("feedback")
+      .insert([{ 
+        name: name, 
+        email: email, 
+        message: message 
+      }])
+      .select();
+
+    if (error) {
+      console.error("Supabase error:", error);
+      status.innerText = `❌ Error: ${error.message}`;
+      status.style.color = "#ff4444";
+    } else {
+      console.log("Feedback submitted successfully:", data);
+      status.innerText = "✅ Feedback submitted successfully!";
+      status.style.color = "#00ffd5";
+      e.target.reset();
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        status.innerText = "";
+      }, 5000);
+    }
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    status.innerText = "❌ An unexpected error occurred. Please try again.";
+    status.style.color = "#ff4444";
+  } finally {
+    submitButton.disabled = false;
+    submitButton.innerText = "Submit Feedback";
+  }
+});
+</script>
+
+
 </body>
+
 
 </html>
