@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashwin Ramesh | Cloud Engineer</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -23,13 +21,13 @@
             <li><a href="#skills">Skills</a></li>
             <li><a href="#journey">Journey</a></li>
             <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#feedback">Contact</a></li>
         </ul>
     </nav>
 
     <section class="hero">
         <div class="hero-content glass">
-            <img src="IMG_20260118_170308.jpg.jpeg" class="profile-img">
+            <img src="profile.jpg" class="profile-img" alt="Ashwin Ramesh">
             <h1>Aspiring Cloud & DevOps Engineer</h1>
             <p>BCA Cloud Computing Student</p>
         </div>
@@ -38,8 +36,7 @@
     <section id="about" class="section glass">
         <h2>About Me</h2>
         <p>
-            Hi! I am a BCA Cloud Computing student from Kristu Jayanti (Deemed to be University)
-            focused on becoming a Cloud and DevOps Engineer.
+            Hi! I am a BCA Cloud Computing student focused on becoming a Cloud and DevOps Engineer.
             I am actively building skills in cloud platforms and automation
             to design secure and scalable solutions.
         </p>
@@ -68,83 +65,112 @@
     </section>
 
     <section id="feedback" class="fade">
-  <h2>Feedback</h2>
-  <form class="feedback-form" id="feedbackForm">
-    <input type="text" id="name" placeholder="Your Name" required>
-    <input type="email" id="email" placeholder="Your Email" required>
-    <textarea rows="5" id="message" placeholder="Your Feedback" required></textarea>
-    <button type="submit">Submit Feedback</button>
-  </form>
-  <div id="status"></div>
-</section>
+        <h2>Feedback</h2>
+        <form class="feedback-form" id="feedbackForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea rows="5" id="message" placeholder="Your Feedback" required></textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
+        <div id="status"></div>
+    </section>
 
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
 
-<script>
+    <!-- Main JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
 
-    const supabaseUrl = "https://pmmlvynoxfxefvmzhrbo.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtbWx2eW5veGZ4ZWZ2bXpocmJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MzA4NDgsImV4cCI6MjA4NzUwNjg0OH0.Xt_BmsOw0oJKBg64weyjB2NjHTqpapEeYxXRSpetBrg";
+            // ==========================
+            // SUPABASE CONFIGURATION
+            // ==========================
+            const supabaseUrl = "https://pmmlvynoxfxefvmzhrbo.supabase.co";
+            const supabaseKey = "YOUR_PUBLIC_ANON_KEY"; // Replace with your real anon key
+            const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+            const form = document.getElementById("feedbackForm");
+            const status = document.getElementById("status");
 
-    document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
 
-  const status = document.getElementById("status");
-  const submitButton = e.target.querySelector('button[type="submit"]');
-  
-  // Show loading state
-  status.innerText = "Submitting...";
-  status.style.color = "#fff";
-  submitButton.disabled = true;
-  submitButton.innerText = "Submitting...";
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.innerText = "Submitting...";
+                status.innerText = "Submitting...";
+                status.style.color = "#ffffff";
 
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const message = document.getElementById("message").value.trim();
+                const name = document.getElementById("name").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const message = document.getElementById("message").value.trim();
 
-  console.log("Attempting to submit feedback:", { name, email, message });
+                if (!name || !email || !message) {
+                    status.innerText = "Please fill all fields.";
+                    status.style.color = "#ff4444";
+                    submitButton.disabled = false;
+                    submitButton.innerText = "Submit Feedback";
+                    return;
+                }
 
-  try {
-    const { data, error } = await supabaseClient
-      .from("feedback")
-      .insert([{ 
-        name: name, 
-        email: email, 
-        message: message 
-      }])
-      .select();
+                try {
+                    const { error } = await supabaseClient
+                        .from("feedback")
+                        .insert([{ name, email, message }]);
 
-    if (error) {
-      console.error("Supabase error:", error);
-      status.innerText = `❌ Error: ${error.message}`;
-      status.style.color = "#ff4444";
-    } else {
-      console.log("Feedback submitted successfully:", data);
-      status.innerText = "✅ Feedback submitted successfully!";
-      status.style.color = "#00ffd5";
-      e.target.reset();
-      
-      // Clear success message after 5 seconds
-      setTimeout(() => {
-        status.innerText = "";
-      }, 5000);
-    }
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    status.innerText = "❌ An unexpected error occurred. Please try again.";
-    status.style.color = "#ff4444";
-  } finally {
-    submitButton.disabled = false;
-    submitButton.innerText = "Submit Feedback";
-  }
-});
-</script>
+                    if (error) {
+                        status.innerText = error.message;
+                        status.style.color = "#ff4444";
+                    } else {
+                        status.innerText = "Feedback submitted successfully!";
+                        status.style.color = "#00ffd5";
+                        form.reset();
 
+                        setTimeout(() => {
+                            status.innerText = "";
+                        }, 5000);
+                    }
+
+                } catch (err) {
+                    status.innerText = "Unexpected error occurred.";
+                    status.style.color = "#ff4444";
+                }
+
+                submitButton.disabled = false;
+                submitButton.innerText = "Submit Feedback";
+            });
+
+            // ==========================
+            // SKILLS CHART
+            // ==========================
+            const ctx = document.getElementById("skillsChart");
+
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["HTML", "CSS", "JavaScript", "Cloud", "DevOps"],
+                    datasets: [{
+                        label: "Skill Level",
+                        data: [85, 80, 75, 70, 65]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
 
 </body>
-
-
 </html>
-
