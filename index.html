@@ -18,9 +18,8 @@
         }
 
         body {
-            background: #16a34a; /* Plain green background */
+            background: #16a34a;
             color: white;
-            overflow-x: hidden;
         }
 
         nav {
@@ -30,6 +29,8 @@
             position: fixed;
             width: 100%;
             z-index: 1000;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
         }
 
         nav ul {
@@ -44,11 +45,13 @@
         nav ul li a {
             color: white;
             text-decoration: none;
+            position: relative;
             transition: 0.3s;
         }
 
+        /* BLUE HOVER EFFECT */
         nav ul li a:hover {
-            color: white; /* changed to white */
+            color: #38bdf8;
         }
 
         .hero {
@@ -68,8 +71,8 @@
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(15px);
             border-radius: 15px;
-            margin: 50px auto;
-            max-width: 900px;
+            margin: 60px auto;
+            max-width: 1000px;
             padding: 50px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             transition: 0.4s;
@@ -90,33 +93,36 @@
             text-align: center;
         }
 
+        /* UPDATED GRID LAYOUT */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
             margin-top: 30px;
         }
 
         .card {
-            padding: 20px;
+            padding: 25px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            border-radius: 12px;
             transition: 0.3s;
+            text-align: center;
         }
 
+        /* BLUE HOVER */
         .card:hover {
-            background: #FF1493;
+            background: #38bdf8;
             color: black;
             transform: scale(1.05);
         }
 
-        /* Vertical Skill Bars */
+        /* VERTICAL SKILL BARS IMPROVED */
         .skills-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-evenly;
             align-items: flex-end;
-            height: 250px;
-            margin-top: 30px;
+            height: 280px;
+            margin-top: 40px;
         }
 
         .skill {
@@ -124,11 +130,15 @@
         }
 
         .bar {
-            width: 30px;
-            background: white;
+            width: 35px;
+            background: #38bdf8;
             margin-bottom: 10px;
-            border-radius: 5px;
-            transition: 0.3s;
+            border-radius: 6px;
+            transition: 0.4s;
+        }
+
+        .bar:hover {
+            background: white;
         }
 
         form {
@@ -136,10 +146,13 @@
             flex-direction: column;
             gap: 15px;
             margin-top: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         input, textarea {
-            padding: 10px;
+            padding: 12px;
             border: none;
             border-radius: 8px;
         }
@@ -148,11 +161,12 @@
             padding: 12px;
             border: none;
             border-radius: 8px;
-            background: #FF1493;
+            background: #38bdf8;
             cursor: pointer;
             transition: 0.3s;
         }
 
+        /* BLUE BUTTON HOVER */
         button:hover {
             background: white;
             color: black;
@@ -235,7 +249,7 @@
         </div>
     </section>
 
-    <section id="feedback" class="fade">
+    <section id="feedback" class="section glass">
         <h2>Feedback</h2>
         <form id="feedbackForm">
             <input type="text" id="name" placeholder="Your Name" required>
