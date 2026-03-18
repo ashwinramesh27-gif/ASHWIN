@@ -18,25 +18,9 @@
         }
 
         body {
-            background: #0f172a;
+            background: #16a34a; /* Plain green background */
             color: white;
             overflow-x: hidden;
-        }
-
-        .gradient-bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #0ea5e9, #6366f1);
-            background-size: 400% 400%;
-            animation: gradientMove 12s ease infinite;
-            z-index: -1;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         nav {
@@ -64,7 +48,7 @@
         }
 
         nav ul li a:hover {
-            color: #FF1493;
+            color: white; /* changed to white */
         }
 
         .hero {
@@ -126,6 +110,27 @@
             transform: scale(1.05);
         }
 
+        /* Vertical Skill Bars */
+        .skills-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 250px;
+            margin-top: 30px;
+        }
+
+        .skill {
+            text-align: center;
+        }
+
+        .bar {
+            width: 30px;
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
         form {
             display: flex;
             flex-direction: column;
@@ -157,8 +162,6 @@
 
 <body>
 
-    <div class="gradient-bg"></div>
-
     <nav>
         <h2 class="logo">ASHWIN RAMESH</h2>
         <ul>
@@ -189,7 +192,30 @@
 
     <section id="skills" class="section glass">
         <h2>Technical Skills</h2>
-        <canvas id="skillsChart"></canvas>
+
+        <div class="skills-container">
+            <div class="skill">
+                <div class="bar" style="height: 85%;"></div>
+                <p>HTML</p>
+            </div>
+            <div class="skill">
+                <div class="bar" style="height: 80%;"></div>
+                <p>CSS</p>
+            </div>
+            <div class="skill">
+                <div class="bar" style="height: 75%;"></div>
+                <p>JavaScript</p>
+            </div>
+            <div class="skill">
+                <div class="bar" style="height: 70%;"></div>
+                <p>Cloud</p>
+            </div>
+            <div class="skill">
+                <div class="bar" style="height: 65%;"></div>
+                <p>DevOps</p>
+            </div>
+        </div>
+
     </section>
 
     <section id="journey" class="section glass">
@@ -221,7 +247,6 @@
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -272,26 +297,8 @@
                 button.textContent = "Submit Feedback";
             });
 
-            new Chart(document.getElementById("skillsChart"), {
-                type: "bar",
-                data: {
-                    labels: ["HTML", "CSS", "JavaScript", "Cloud", "DevOps"],
-                    datasets: [{
-                        data: [85, 80, 75, 70, 65]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, max: 100 } }
-                }
-            });
-
         });
     </script>
 
 </body>
 </html>
-
-
-
