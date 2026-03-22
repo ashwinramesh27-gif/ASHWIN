@@ -30,5 +30,15 @@ app.use("/api/feedback", limiter, feedbackRoute);
 
 app.get("/", (req, res) => res.send("Portfolio backend is running!"));
 
+// ✅ Self-ping every 10 minutes to prevent Render from sleeping
+const https = require("https");
+setInterval(() => {
+    https.get("https://portfolio-backend-sx1t.onrender.com", (res) => {
+        console.log(`Self-ping status: ${res.statusCode}`);
+    }).on("error", (err) => {
+        console.log(`Self-ping error: ${err.message}`);
+    });
+}, 10 * 60 * 1000);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
