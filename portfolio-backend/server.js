@@ -7,7 +7,12 @@ const feedbackRoute = require("./routes/feedback");
 const app = express();
 
 app.use(cors({
-    origin: ["https://69be7e3ee3502b810c8f1b21--inquisitive-sunburst-1cff02.netlify.app", "http://localhost:5500"]
+    origin: [
+        "https://69be7e3ee3502b810c8f1b21--inquisitive-sunburst-1cff02.netlify.app",
+        "https://69bfe843f960f6a8c01663ec--inquisitive-sunburst-1cff02.netlify.app",
+        "https://inquisitive-sunburst-1cff02.netlify.app",
+        "http://localhost:5500"
+    ]
 }));
 
 app.use(express.json());
