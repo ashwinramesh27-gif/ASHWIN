@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd portfolio-backend
+          npm install
+
+      - name: Check server file exists
+        run: |
+          if [ -f "portfolio-backend/server.js" ]; then
+            echo "✅ server.js found"
+          else
+            echo "❌ server.js not found"
+            exit 1
+          fi
+
+      - name: Check routes file exists
+        run: |
+          if [ -f "portfolio-backend/routes/feedback.js" ]; then
+            echo "✅ feedback.js found"
+          else
+            echo "❌ feedback.js not found"
+            exit 1
+          fi
+
+      - name: Trigger Render Deploy
+        run: |
+          curl "${{ secrets.RENDER_DEPLOY_HOOK }}"
