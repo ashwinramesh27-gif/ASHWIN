@@ -1,10 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const supabaseUrl = "https://pmmlvynoxfxefvmzhrbo.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtbWx2eW5veGZ4ZWZ2bXpocmJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MzA4NDgsImV4cCI6MjA4NzUwNjg0OH0.Xt_BmsOw0oJKBg64weyjB2NjHTqpapEeYxXRSpetBrg";
-
-    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-
     const form = document.getElementById("feedbackForm");
     const status = document.getElementById("status");
 
@@ -27,14 +22,20 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const { error } = await supabaseClient
-            .from("feedback")
-            .insert([{ name, email, message }]);
+        const res = await fetch("https://portfolio-backend-sx1t.onrender.com/api/feedback", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, message })
+        });
 
-        if (error) {
-            status.textContent = error.message;
+        const data = await res.json();
+
+        if (!res.ok) {
+            status.textContent = data.error || "Something went wrong.";
+            status.style.color = "#ff4444";
         } else {
             status.textContent = "Feedback submitted successfully!";
+            status.style.color = "#00ffd5";
             form.reset();
         }
 
