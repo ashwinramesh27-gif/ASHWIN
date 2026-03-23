@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: #e2e8f0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    position: sticky;
+    top: 0;
+    background: #020617;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+nav h2 {
+    color: #38bdf8;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: #cbd5f5;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #38bdf8;
+}
+
+.hero {
+    padding: 80px 20px 40px;
+}
+
+.hero-container {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.profile-img {
+    width: 160px;
+    border-radius: 50%;
+    border: 2px solid #38bdf8;
+}
+
+.hero-text h1 {
+    font-size: 30px;
+}
+
+section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+h2 {
+    color: #38bdf8;
+    margin-bottom: 15px;
+}
+
+.plain {
+    line-height: 1.7;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.item {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card {
+    background: #020617;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input,
+textarea {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #020617;
+    color: white;
+}
+
+button {
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    background: #38bdf8;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+#status {
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media(max-width: 600px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
